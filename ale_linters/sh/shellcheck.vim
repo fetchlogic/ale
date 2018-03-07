@@ -12,11 +12,16 @@ let g:ale_sh_shellcheck_exclusions =
 let g:ale_sh_shellcheck_executable =
 \   get(g:, 'ale_sh_shellcheck_executable', 'shellcheck')
 
+let g:ale_sh_shellcheck_use_global =
+\   get(g:, 'ale_sh_shellcheck_use_global', 0)
+
 let g:ale_sh_shellcheck_options =
 \   get(g:, 'ale_sh_shellcheck_options', '')
 
 function! ale_linters#sh#shellcheck#GetExecutable(buffer) abort
-    return ale#Var(a:buffer, 'sh_shellcheck_executable')
+    return ale#node#FindExecutable(a:buffer, 'sh_shellcheck', [
+    \   'node_modules/.bin/shellcheck',
+    \])
 endfunction
 
 function! ale_linters#sh#shellcheck#GetDialectArgument(buffer) abort
